@@ -7,7 +7,10 @@ import BookItem from "@/components/bookItem";
 import {BookData} from "@/types";
 
 async function AllBooks(){
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`);
+    const cacheOption:RequestInit = {
+        cache:'no-store',
+    };
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,cacheOption);
     if(!response.ok){
         return <div>오류가 발생했습니다.</div>
     }
@@ -24,7 +27,13 @@ async function AllBooks(){
 }
 
 async function RecBooks(){
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`);
+    const cacheOption:RequestInit = {
+        next:{
+            revalidate:3
+        }
+    };
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/random`,cacheOption);
     if(!response.ok){
         return <div>오류가 발생했습니다.</div>;
     }
