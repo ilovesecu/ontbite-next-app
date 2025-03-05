@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import BookItem from "@/components/bookItem";
 import {BookData} from "@/types";
 
+export const dynamic = 'force-dynamic';
 async function AllBooks(){
     const cacheOption:RequestInit = {
         cache:"force-cache",
