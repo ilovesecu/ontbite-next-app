@@ -1,12 +1,23 @@
 import style from './page.module.css';
+import {notFound} from "next/navigation";
 
+export const dynamicParams = true;
+
+export function generateStaticParams(){
+    return [
+        {id:"1"},{id:"2"},{id:"3"}
+    ]
+}
 
 export default async function Page({params}:
                                        {params:Promise<{id:string}>}){
 
     const paramId = await params;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${paramId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${paramId.id}`);
     if(!response.ok){
+        if(response.status === 404){
+            notFound();
+        }
         return (<div>오류가 발생했습니다...</div>);
     }
     const book = await response.json();

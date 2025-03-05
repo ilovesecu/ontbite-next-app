@@ -4,7 +4,10 @@ export default async function Page({searchParams}
                                        :
                                        { searchParams: Promise<{ q: string }> }) {
     const {q} = await searchParams;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${q}`);
+    const cacheOption:RequestInit = {
+        cache: 'force-cache'
+    }
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/search?q=${q}`,cacheOption);
     if(!response.ok){
         return <div>오류가 발생했습니다.</div>
     }
