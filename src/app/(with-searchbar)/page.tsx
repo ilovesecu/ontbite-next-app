@@ -1,14 +1,10 @@
-import Image from "next/image";
 import styles from "./page.module.css";
-import ClientComponent from "@/components/client-component";
-import ServerComponent from "@/components/server-component";
-import books from "@/mock/books.json";
 import BookItem from "@/components/bookItem";
 import {BookData} from "@/types";
 
 async function AllBooks(){
     const cacheOption:RequestInit = {
-        cache:'no-store',
+        cache:"force-cache",
     };
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,cacheOption);
     if(!response.ok){
