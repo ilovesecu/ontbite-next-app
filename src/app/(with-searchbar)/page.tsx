@@ -1,9 +1,12 @@
 import styles from "./page.module.css";
 import BookItem from "@/components/bookItem";
 import {BookData} from "@/types";
+import {delay} from "@/util/delay";
+import {Suspense} from "react";
 
 export const dynamic = 'force-dynamic';
 async function AllBooks(){
+    await delay(1500);
     const cacheOption:RequestInit = {
         cache:"force-cache",
     };
@@ -24,6 +27,7 @@ async function AllBooks(){
 }
 
 async function RecBooks(){
+    await delay(3000);
     const cacheOption:RequestInit = {
         next:{
             revalidate:3
@@ -53,11 +57,15 @@ export default function Home() {
       <div className={styles.container}>
           <section>
               <h3>지금 추천하는 도서</h3>
-              <RecBooks/>
+              <Suspense fallback={<div>Loading... 추천</div>}>
+                <RecBooks/>
+              </Suspense>
           </section>
           <section>
               <h3>등록된 모든 도서</h3>
-              <AllBooks />
+              <Suspense fallback={<div>Loading... All</div>}>
+                <AllBooks />
+              </Suspense>
           </section>
       </div>
     </>
