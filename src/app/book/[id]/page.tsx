@@ -3,32 +3,29 @@ import {notFound} from "next/navigation";
 
 export const dynamicParams = true;
 
-export function generateStaticParams(){
+export function generateStaticParams() {
     return [
-        {id:"1"},{id:"2"},{id:"3"}
+        {id: "1"}, {id: "2"}, {id: "3"}
     ]
 }
 
-export default async function Page({params}:
-                                       {params:Promise<{id:string}>}){
-
-    const paramId = await params;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${paramId.id}`);
-    if(!response.ok){
-        if(response.status === 404){
+async function BookDetail({bookId}: { bookId: string }) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`);
+    if (!response.ok) {
+        if (response.status === 404) {
             notFound();
         }
         return (<div>오류가 발생했습니다...</div>);
     }
     const book = await response.json();
     const {
-        id,title,subTitle,description, author, publisher, coverImgUrl
+        id, title, subTitle, description, author, publisher, coverImgUrl
     } = book;
 
 
     return (
         <>
-            <div className={style.container}>
+            <section>
                 <div className={style.cover_img_container} style={{backgroundImage: `url('${coverImgUrl}')`}}>
                     <img src={coverImgUrl}/>
                 </div>
@@ -38,7 +35,35 @@ export default async function Page({params}:
                     {author} | {publisher}
                 </div>
                 <div className={style.description}>{description}</div>
-            </div>
+            </section>
         </>
     )
+}
+
+function ReviewEditor() {
+    async function createReviewAction(formData:FormData){
+        'use server'
+        console.log('server action called');
+        const content = formData.get('content')?.toString();
+        const author = formData.get('author')?.toString();
+        console.log(content, author);
+    }
+
+    return <section>
+        <form action={createReviewAction}>
+            <input placeholder="리뷰 내용" name="content"/>
+            <input placeholder="작성자" name="author"/>
+            <button type="submit">작성하기</button>
+        </form>
+    </section>
+}
+
+export default async function Page({params}:
+                                       { params: Promise<{ id: string }> }) {
+
+    const {id} = await params;
+    return <div className={style.container}>
+        <BookDetail bookId={id}/>
+        <ReviewEditor/>
+    </div>
 }
