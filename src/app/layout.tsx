@@ -21,12 +21,13 @@ export const metadata: Metadata = {
 };
 
 async function Footer(){
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,{cache:"force-cache"})
+  /*const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,{cache:"force-cache"})
   if(!response.ok){
     return <footer>제작 @ilovepc</footer>
   }
-  const books : BookData[] = await response.json();
-  const length = books.length;
+  const books : BookData[] = await response.json();*/
+  //const length = books.length;
+  const length = 10;
   return (
       <footer>
         <div>제작 @ilovepc</div>
