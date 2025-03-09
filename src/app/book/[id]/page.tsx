@@ -47,7 +47,9 @@ async function BookDetail({bookId}: { bookId: string }) {
 async function ReviewList({bookId}:{bookId:string}){
     //현재 도서에 등록된 리뷰를 보여주는 컴포넌트
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/book/${bookId}`,{
+        next: {tags: [`review-${bookId}`]}
+    });
     if(!response.ok){
         throw new Error(`Review fetch failed:${response.statusText}`);
     }
