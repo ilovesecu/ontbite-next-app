@@ -1,4 +1,6 @@
 'use server'
+import {revalidatePath} from "next/cache";
+
 export async function createReviewAction(formData:FormData){
 
     console.log('server action called');
@@ -14,6 +16,7 @@ export async function createReviewAction(formData:FormData){
             body: JSON.stringify({content,author,bookId})
         })
         console.log(response.status);
+        revalidatePath(`/book/${bookId}`); //NEXT SERVER가 자동으로 인수로 전달한 경로의 페이지를 재검증함.
     }catch (e){
         console.error(e);
     }
