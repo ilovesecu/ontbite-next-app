@@ -5,6 +5,7 @@ import {delay} from "@/util/delay";
 import {Suspense} from "react";
 import BoookItemSkeleton from "@/components/skeleton/book-item-skeleton";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
+import {Metadata} from "next";
 
 export const dynamic = 'force-dynamic';
 async function AllBooks(){
@@ -51,6 +52,16 @@ async function RecBooks(){
             }
         </div>
     )
+}
+
+export const metadata:Metadata = {
+    title:"한 입 북스",
+    description:"한 입 북스에 등록된 도서를 만나보셈",
+    openGraph:{
+        title:"한입 북스",
+        description: " 한입 북스에 등록된 도서를 만나보셈",
+        images:['/thumbnail.png']
+    }
 }
 
 export default function Home() {
