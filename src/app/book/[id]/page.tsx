@@ -3,6 +3,7 @@ import {notFound} from "next/navigation";
 import {ReviewData} from "@/types";
 import ReviewItem from "@/components/review-item";
 import ReviewEditor from "@/components/review-editor";
+import Image from "next/image";
 
 export const dynamicParams = true;
 
@@ -30,7 +31,7 @@ async function BookDetail({bookId}: { bookId: string }) {
         <>
             <section>
                 <div className={style.cover_img_container} style={{backgroundImage: `url('${coverImgUrl}')`}}>
-                    <img src={coverImgUrl}/>
+                    <Image src={coverImgUrl} alt={`${title}표지`} width={240} height={300}/>
                 </div>
                 <div className={style.title}>{title}</div>
                 <div className={style.subTitle}>{subTitle}</div>
